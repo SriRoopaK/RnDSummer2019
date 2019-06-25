@@ -1,0 +1,21 @@
+<html>
+<body>
+<h2>{{title}}</h2>
+<table>
+    <tr>
+        <th>Serial Number</th>
+        <th>College Name</th>
+        <th>Link</th>
+        <th>Actions</th>
+    </tr>
+    {% for i in college %}
+    <tr>
+        <td>  {{i.id|safe}}</td>
+        <td>{{i.name}}</td>
+        <td><a href="{{i.acronym}}">{{i.acronym}}</a></td>
+        <td><a href="">edit</a> | <a href="">delete</a></td>
+    </tr>
+    {% endfor %}
+</table>
+</body>
+</html>

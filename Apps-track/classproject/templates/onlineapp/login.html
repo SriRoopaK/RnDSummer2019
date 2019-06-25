@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+{% load static %}
+{% load widget_tweaks %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link rel="stylesheet" href="{% static 'css/bulma.css' %}">
+</head>
+<body>
+            <h2 class="heading" style="font-size: 25px;">Login</h2>
+            <form method="post">
+                {% csrf_token %}
+                {{form.as_p}}
+                <div class="control">
+                    <button type="submit">Submit</button>
+                </div>
+                <a href="{% url 'signup' %}">Signup</a>
+            </form>
+</body>
+</html>

@@ -1,0 +1,68 @@
+from django.shortcuts import render
+from django.http import HttpResponse
+from .models import *
+# Create your views here.
+def hello(request):
+    return HttpResponse("Hello World")
+
+def htmlpage(request):
+    file = open('E:/home.html', 'r')
+    response = HttpResponse(content=file)
+    return response
+
+def index(request):
+    headers = request.headers
+    return HttpResponse(str(headers))
+
+def get_my_college(request):
+    c = College.objects.get(acronym='srkr')
+    return HttpResponse(str(c.name))
+
+def get_college_names(request):
+    c=College.objects.values('name','acronym')
+    response = "<html><body><table>"
+    for c1 in c:
+        response += "<tr><td>"
+        response+=c1['name']
+        response+="</td><td>"
+        response+=c1['acronym']
+        response+="</td></tr>"
+    response+= "</table></body></html>"
+    return HttpResponse(response)
+
+
+def get_college_temp(request):
+    colleges=College.objects.values('name','acronym')
+    CONTEXT_DIR=dict()
+    CONTEXT_DIR['data']=colleges
+    rendered = render(request, 'onlineapp/all_colleges.html', CONTEXT_DIR)
+    return HttpResponse(rendered)
+
+
+def get_student(request):
+    c = College.objects.values('id', 'name')
+    response = "<html><body><table>"
+    for i in c:
+        response += "<tr><td>"
+        response += i['name']
+        response += "</td><td>"
+        link="student_info/"+str(i['id'])
+        response += "<a href="+link+">student_info_"+str(i['id'])+"</a>"
+        response += "</td></tr>"
+    response += "</table></body></html>"
+    return HttpResponse(response)
+
+def get_student_info(request,id):
+    s = MockTest1.objects.values('student__id','student__name','total').filter(student__college__id=id)
+    response = "<html><body><table>"
+    for i in s:
+        response += "<tr><td>"
+        response += i['student__name']
+        response += "</td><td>"
+        response += str(i['total'])
+        response += "</td></tr>"
+    response += "</table></body></html>"
+    return HttpResponse(response)
+
+
+
