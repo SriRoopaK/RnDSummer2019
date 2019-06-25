@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Lists</title>
+</head>
+<body>
+<table border ='1px'>
+    <tr>
+        <th>List name</th>
+        <th>Created on</th>
+    </tr>
+    {% for i in lists %}
+    <tr>
+        <td><a href = "{{i.id}}">{{i.name}}</a></td>
+        <td>{{i.created}}</td>
+    </tr>
+    {% endfor %}
+</table>
+<div class="control">
+    <a href="/lists/add-list/"><button>Add List</button></a>
+</div>
+</body>
+</html>

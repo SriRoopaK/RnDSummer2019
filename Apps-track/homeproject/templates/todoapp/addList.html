@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+{% load static %}
+{% load widget_tweaks %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add List</title>
+    <link rel="stylesheet" href="{% static 'css/bulma.css' %}">
+</head>
+<body>
+            <h2 class="heading" style="font-size: 25px;">Add List</h2>
+            <form method="post" action="/lists/add-list/">
+                {% csrf_token %}
+                {{form.as_p}}
+                <div class="control">
+                    <button type="submit">Submit</button>
+                </div>
+            </form>
+</body>
+</html>
