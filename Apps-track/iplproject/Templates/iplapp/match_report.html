@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+{% load static %}
+{% load widget_tweaks %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Match Report</title>
+    <link rel="stylesheet" href="{% static 'css/bulma.css' %}">
+    <style>
+        .card{
+        background-color: #ffff99;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        }
+        .title{
+        color:Green;
+        }
+        .subtitle{
+        color: #009900;
+        }
+        .card-footer-item{
+        color: #33cc00
+        }
+        a{
+        color: #33cc00
+        }
+        #author{
+        background-color: #0033ff;
+        }
+        #tab{
+        background-color: #00ffff;
+        }
+    </style>
+</head>
+<body>
+<div>
+    {% if user.is_authenticated %}
+    <div class="tabs is-right is-small" id="author">
+        <ul>
+            <li>Hi, {{user.username}}</li>
+            <li><a href="{% url 'logout' %}">Logout</a></li>
+        </ul>
+    </div>
+    {% else %}
+    <div class="tabs is-right is-small" id="author">
+        <ul>
+            <li><a href="{% url 'login' %}">Login</a></li>
+        </ul>
+    </div>
+    {% endif %}
+</div>
+<div class="tabs is-boxed is-fullwidth is-medium" id="tab">
+  <ul>
+    <li>
+      <a href="/">
+        <span class="icon is-small"><i class="fas fa-home" aria-hidden="true"></i></span>
+        <span>Home</span>
+      </a>
+    </li>
+    <li>
+      <a href="/2019/points_table">
+        <span class="icon is-small"><i class="fas fa-music" aria-hidden="true"></i></span>
+        <span>Points</span>
+      </a>
+    </li>
+    <li>
+      <a href="/seasons/">
+        <span class="icon is-small"><i class="fas fa-film" aria-hidden="true"></i></span>
+        <span>Seasons</span>
+      </a>
+    </li>
+    <li>
+      <a href="/teams/">
+        <span class="icon is-small"><i class="far fa-file-alt" aria-hidden="true"></i></span>
+        <span>Teams</span>
+      </a>
+    </li>
+  </ul>
+</div>
+<article class="message is-primary">
+  <div class="message-header">
+    <p>{{match.team1}} V/S {{match.team2}} @ {{match.venue}}</p>
+    <!--<button class="delete" aria-label="delete"></button>-->
+  </div>
+  <div class="message-body" style="text-align:center;">
+      <strong style="font-size:20px;color:#cc6633">Winner: {{match.winner}}</strong><br>
+      Toss Result: {{match.toss_winner}}<br>
+      Toss Decision: {{match.toss_decision}}<br>
+      Win by runs: {{match.win_by_run}}<br>
+      Win by wickets: {{match.win_by_wicket}}<br>
+      <strong style="font-size:20px;color:#cc6633">Man of the match: {{match.player_of_match}}</strong><br>
+  </div>
+</article>
+{% for i in deliveries %}
+<div class="card">
+    <div class="card-content">
+        <p class="subtitle" style="text-align:center;">
+            Runs: {{i.total_runs}}
+        </p>
+        <p class="subtitle" style="text-align:center;">
+            Batsman: {{i.batsman}}
+        </p>
+        <p class="subtitle" style="text-align:center;">
+            Bowler: {{i.bowler}}
+        </p>
+        <footer class="card-footer">
+            <p class="card-footer-item">
+                Over: {{i.over}}
+            </p>
+             <p class="card-footer-item">
+                Ball: {{i.ball}}
+            </p>
+            <p class="card-footer-item">
+                Innings: {{i.inning}}
+            </p>
+        </footer>
+    </div>
+</div>
+<br>
+{% endfor %}
+<nav class="pagination is-centered" role="navigation" aria-label="pagination">
+  <ul class="pagination-list">
+    <li><a class="pagination-link" aria-label="Goto page 1" href="?page=1">Innings 1</a></li>
+    <li><a class="pagination-link" aria-label="Goto page 2" href="?page=2">Innings 2</a></li>
+  </ul>
+</nav>
+</body>
+</html>

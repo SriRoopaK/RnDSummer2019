@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+{% load static %}
+{% load widget_tweaks %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Season Details</title>
+    <link rel="stylesheet" href="{% static 'css/bulma.css' %}">
+    <style>
+        .card{
+        background-color: #ffffcc;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        }
+        .title{
+        color:Green;
+        }
+        .subtitle{
+        color:#00cc33
+        }
+        .card-footer-item{
+        color: #33cc00
+        }
+        a{
+        color: #33cc00
+        }
+        #author{
+        background-color: #0033ff;
+        }
+        #tab{
+        background-color: #00ffff;
+        }
+        body{
+        background-color: #00ffcc;
+        }
+    </style>
+</head>
+<body>
+<div>
+    {% if user.is_authenticated %}
+    <div class="tabs is-right is-small" id="author">
+        <ul>
+            <li>Hi, {{user.username}}</li>
+            <li><a href="{% url 'logout' %}">Logout</a></li>
+        </ul>
+    </div>
+    {% else %}
+    <div class="tabs is-right is-small" id="author">
+        <ul>
+            <li><a href="{% url 'login' %}">Login</a></li>
+        </ul>
+    </div>
+    {% endif %}
+</div>
+<div class="tabs is-boxed is-fullwidth is-medium" id="tab">
+  <ul>
+    <li>
+      <a href="/">
+        <span class="icon is-small"><i class="fas fa-home" aria-hidden="true"></i></span>
+          <span><strong>Home</strong></span>
+      </a>
+    </li>
+    <li>
+      <a href="/2019/points_table">
+        <span class="icon is-small"><i class="fas fa-music" aria-hidden="true"></i></span>
+          <span><strong>Points</strong></span>
+      </a>
+    </li>
+    <li>
+      <a href="/seasons/">
+        <span class="icon is-small"><i class="fas fa-film" aria-hidden="true"></i></span>
+          <span><strong>Seasons</strong></span>
+      </a>
+    </li>
+    <li>
+      <a href="/teams/">
+        <span class="icon is-small"><i class="far fa-file-alt" aria-hidden="true"></i></span>
+          <span><strong>Teams</strong></span>
+      </a>
+    </li>
+  </ul>
+</div>
+<div style="text-align:center;">
+{% for season in seasons %}
+<a class="button is-link is-outlined" href="/seasons/{{season}}/" style="background-color:blue;color:white;">{{season}}</a>
+{% endfor %}
+    </div>
+<h2 class="title" style="text-align:center;">Season {{year}}</h2>
+{% for match in matches %}
+<div class="card">
+    <div class="card-content">
+        <p class="title">
+            {{match.team1}} V/S {{match.team2}}
+        </p>
+        <p class="subtitle">
+            @{{match.venue}}
+        </p>
+        <footer class="card-footer">
+            <p class="card-footer-item">
+                Toss Winner: {{match.toss_winner}}
+            </p>
+             <p class="card-footer-item">
+                Toss Decision: {{match.toss_decision}}
+            </p>
+            <p class="card-footer-item">
+                Player of Match: {{match.player_of_match}}
+            </p>
+            <p class="card-footer-item">
+                Winner: {{match.winner}}
+            </p>
+            <p class="card-footer-item">
+                <a href="/seasons/{{match.season}}/match_details/{{match.sl_no}}">View Match Details</a>
+            </p>
+        </footer>
+    </div>
+</div>
+<br>
+{% endfor %}
+<nav class="pagination is-centered" role="navigation" aria-label="pagination">
+    {% if matches.number == 1 %}
+    <a class="pagination-previous" disabled>Previous</a>
+    {% else %}
+     <a class="pagination-previous" href="?page={{ matches.previous_page_number }}" style="border-color:black;">Previous</a>
+    {% endif %}
+  <ul class="pagination-list">
+    <li><a class="pagination-link" aria-label="Goto page 1" href="?page=1" style="border-color:black;">1</a></li>
+    <li><span class="pagination-ellipsis">&hellip;</span></li>
+    <li><a class="pagination-link" aria-label="Goto page 5" href="?page=5" style="border-color:black;">5</a></li>
+    <li><a class="pagination-link" aria-label="Goto page 7" href="?page=6" style="border-color:black;">6</a></li>
+    <li><span class="pagination-ellipsis">&hellip;</span></li>
+    <li><a class="pagination-link" aria-label="Goto page 8" href="?page={{matches.paginator.num_pages}}" style="border-color:black;">{{matches.paginator.num_pages}}</a></li>
+  </ul>
+    {% if matches.number == matches.paginator.num_pages %}
+    <a class="pagination-next" disabled>Next Page</a>
+    {% else %}
+  <a class="pagination-next" href="?page={{ matches.next_page_number }}" style="border-color:black;">Next page</a>
+    {% endif %}
+</nav>
+</body>
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+{% load static %}
+{% load widget_tweaks %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Points</title>
+    <link rel="stylesheet" href="{% static 'css/bulma.css' %}">
+    <style>
+        #author{
+        background-color: #0033ff;
+        }
+        .card{
+        width: 50%;
+        margin-left:auto;
+        margin-right:auto;
+        border-radius: 20px;
+        background-color: #0066ff;
+        }
+        #tab{
+        background-color: #00ffff;
+        }
+        body{
+        background-image: url('/static/media/points.jpg');
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+        }
+    </style>
+</head>
+<body>
+<div>
+    {% if user.is_authenticated %}
+    <div class="tabs is-right is-small" id="author">
+        <ul>
+            <li>Hi, {{user.username}}</li>
+            <li><a href="{% url 'logout' %}">Logout</a></li>
+        </ul>
+    </div>
+    {% else %}
+    <div class="tabs is-right is-small" id="author">
+        <ul>
+            <li><a href="{% url 'login' %}">Login</a></li>
+        </ul>
+    </div>
+    {% endif %}
+</div>
+<div class="tabs is-boxed is-fullwidth is-medium" id="tab">
+  <ul>
+    <li>
+      <a href="/">
+        <span class="icon is-small"><i class="fas fa-home" aria-hidden="true"></i></span>
+        <span>Home</span>
+      </a>
+    </li>
+    <li>
+      <a href="/2019/points_table">
+        <span class="icon is-small"><i class="fas fa-music" aria-hidden="true"></i></span>
+        <span>Points</span>
+      </a>
+    </li>
+    <li>
+      <a href="/seasons/">
+        <span class="icon is-small"><i class="fas fa-film" aria-hidden="true"></i></span>
+        <span>Seasons</span>
+      </a>
+    </li>
+    <li>
+      <a href="/teams/">
+        <span class="icon is-small"><i class="far fa-file-alt" aria-hidden="true"></i></span>
+        <span>Teams</span>
+      </a>
+    </li>
+  </ul>
+</div>
+<div style="text-align:center;">
+{% for year in years %}
+<a class="button is-link is-outlined" href="/{{year}}/points_table" style="color:white;border-color:white;">{{year}}</a>
+{% endfor %}
+    {% for i in points %}
+    <div class="card">
+    <div class="card-content">
+        {% with path="media/"|add:i.0|add:'.jpg' %}
+        <img src="{% static path %}">
+        {% endwith %}
+        <p class="subtitle" style="text-align:center;">
+            {{i.0}}
+        </p>
+        <p class="subtitle" style="text-align:center;">
+            Points: {{i.1}}
+        </p>
+    </div>
+</div>
+    <br>
+    {% endfor %}
+</body>
+</html>

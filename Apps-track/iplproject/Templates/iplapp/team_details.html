@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{team}}</title>
+    <style>
+        .title{
+        color:Green;
+        font-family: Georgia;
+        font-style: oblique;
+        font-size: 20px;
+        }
+        .subtitle{
+        color: #660066;
+        font-size: 25px;
+        }
+        .center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+  border-radius: 25px;
+}
+body{
+background-color:Lemonchiffon;
+}
+.blinking{
+    animation:blinkingText 0.8s infinite;
+}
+@keyframes blinkingText{
+    0%{     color: #00cc33;    }
+    49%{    color: transparent; }
+    50%{    color: transparent; }
+    99%{    color: transparent;  }
+    100%{   color: #00cc33;    }
+}
+body{
+font-family:Georgia;
+}
+ th{
+ color: #008080;
+ }
+  tr:nth-child(even) {
+    background-color: gainsboro;
+  }
+  tr:nth-child(odd) {
+    background-color: white;
+  }
+  .card{
+  background-color: #66ffcc;
+  border-radius: 30px;
+  }
+  .card-footer-item{
+        color: #33cc00
+        }
+    </style>
+</head>
+<body>
+<h1 class="title" style="text-align:center;font-size:50px;">{{team}}</h1>
+<img src="/static/media/{{team}}.jpg" class="center">
+<h2 class="blinking" style="text-align:center;">Seasons played: {{points|length}}</h2>
+<table border="1px" align='center' style="text-align:center;font-size:25px;border-color:#00cc33;border-radius:30px;border-width:thick;padding:5px;">
+    <tr style="background-color: orange">
+        <th>Season</th>
+        <th>Points</th>
+        <th>Matches played</th>
+        <th>Matches won</th>
+    </tr>
+    {% for i in points %}
+    <tr>
+        <!--{% for j in i %}-->
+        <!--<td>{{j}}</td>-->
+        <!--{% endfor %}-->
+        <td>{{i.0}}</td>
+        <td>{{i.1}}</td>
+        <td>{{i.2}}</td>
+        <td class="blink2">{{i.3}}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% for i in matches %}
+{% for j in i %}
+<div class="card" style="text-align:center;">
+    <div class="card-content">
+        <p class="title">
+            <strong>{{j.team1}} V/S {{j.team2}}</strong>
+        </p>
+        <p class="subtitle">
+            {% if j.team1 == team %}
+            <strong>Opponent: {{j.team2}}</strong>
+            {% else %}
+            <Strong>Opponent: {{j.team1}}</Strong>
+            {% endif %}
+        </p>
+        <p class="subtitle">
+            {% if j.winner == team %}
+            <Strong>WON </Strong>
+            {% else %}
+              LOST
+            {% endif %}
+        </p>
+        <footer class="card-footer">
+            <p class="card-footer-item">
+                Player of match: {{j.player_of_match}}
+            </p>
+        </footer>
+    </div>
+</div>
+<br>
+{% endfor %}
+{% endfor %}
+</body>
+</html>

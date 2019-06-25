@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+{% load static %}
+{% load widget_tweaks %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link rel="stylesheet" href="{% static 'css/bulma.css' %}">
+</head>
+<body>
+<div class="columns is-centered" style="margin-top: 5vw">
+        <div class="column is-half">
+            <h2 class="heading" style="font-size: 25px; text-align: center">Login</h2>
+            <form method="post">
+                {% csrf_token %}
+                <div class="field">
+                  <label class="label">Username</label>
+                  <div class="control">
+                      {{ form.Username }}
+                  </div>
+                </div>
+                <div class="field">
+                  <label class="label">Password</label>
+                  <div class="control">
+                      {{ form.Password}}
+                  </div>
+                </div>
+
+                <div style="text-align:center;"><input class="button is-primary"  type="submit" value="Submit"></div>
+                <div style="text-align:right;"><a class="button is-link is-outlined" href="{% url 'signup' %}">Signup</a></div>
+            </form>
+        </div>
+</div>
+</body>
+</html>

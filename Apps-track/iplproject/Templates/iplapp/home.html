@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+{% load static %}
+{% load widget_tweaks %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Indian Premier League</title>
+    <link rel="stylesheet" href="{% static 'css/bulma.css' %}">
+    <style>
+        #author{
+        background-color: #0033ff;
+        }
+        #tab{
+        background-color: #00ffff;
+        }
+        .card{
+        border-radius: 50px;
+        margin-left: auto;
+        }
+    </style>
+</head>
+<body>
+<div>
+    {% if user.is_authenticated %}
+    <div class="tabs is-right is-small is-boxed" id="author">
+        <ul>
+            <li>Hi, {{user.username}}</li>
+            <li><a href="{% url 'logout' %}">Logout</a></li>
+        </ul>
+    </div>
+    {% else %}
+    <div class="tabs is-right is-small is-boxed" id="author">
+        <ul>
+            <li><a href="{% url 'login' %}">Login</a></li>
+        </ul>
+    </div>
+    {% endif %}
+</div>
+<div class="tabs is-boxed is-fullwidth is-medium" id="tab">
+  <ul>
+    <li>
+      <a href="/">
+        <span>Home</span>
+      </a>
+    </li>
+    <li>
+      <a href="2019/points_table">
+        <span>Points</span>
+      </a>
+    </li>
+    <li>
+      <a href="/seasons/">
+        <span>Seasons</span>
+      </a>
+    </li>
+    <li>
+      <a href="/teams/">
+        <span>Teams</span>
+      </a>
+    </li>
+  </ul>
+</div>
+<div class="card">
+  <div class="card-image">
+    <figure class="image is-16by9">
+      <img src="{% static 'media/ipl.png' %}" alt="Placeholder image">
+    </figure>
+  </div>
+</div>
+</body>
+</html>
